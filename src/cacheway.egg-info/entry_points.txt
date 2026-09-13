@@ -1,0 +1,2 @@
+[console_scripts]
+cacheway = cacheway.cli.main:main
