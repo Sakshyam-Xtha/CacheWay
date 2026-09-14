@@ -22,7 +22,10 @@ def main():
     port = os.getenv("PORT")
     path = os.getenv("SERVER_PATH")
     
-    start_server(port,path)
+    try:
+        start_server(port, path)
+    except KeyboardInterrupt:
+        pass
 
 if __name__ == "__main__":
     app()
