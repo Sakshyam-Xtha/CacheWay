@@ -1,7 +1,6 @@
-import subprocess
-import json
+import httpx
 
-def forward_request(request_url)->dict:
-    commands = ["curl","-s",str(request_url)]
-    response = subprocess.run(commands,capture_output=True,text=True)
-    return json.loads(response.stdout)
+def forward_request(request_url):
+    response = httpx.get(request_url)
+    return response
+
