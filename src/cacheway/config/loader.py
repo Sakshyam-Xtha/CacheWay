@@ -5,12 +5,7 @@ from pathlib import Path
 
 load_dotenv()
 
-def start_server():
-    port = os.getenv("PORT")
-    origin = os.getenv("ORIGIN")
-    server_path = os.getenv("SERVER_PATH")
-
+def start_server(port,server_path):
     commands = ["fastapi","dev",server_path, "--port",port]
     subprocess.run(commands)
     
-start_server()

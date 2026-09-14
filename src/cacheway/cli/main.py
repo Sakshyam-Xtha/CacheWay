@@ -7,10 +7,6 @@ from cacheway.config.loader import start_server
 
 load_dotenv(override=True)
 
-port = os.getenv("PORT")
-origin = os.getenv("ORIGIN")
-path = os.getenv("SERVER_PATH")
-
 app = typer.Typer(name="cacheway")
 
 @app.command()
@@ -23,7 +19,11 @@ def main():
     args = parser.parse_args()
     env_setter(args.port,args.origin)
     
-    start_server()
+    port = os.getenv("PORT")
+    origin = os.getenv("ORIGIN")
+    path = os.getenv("SERVER_PATH")
+    
+    start_server(port,path)
 
 if __name__ == "__main__":
     app()
