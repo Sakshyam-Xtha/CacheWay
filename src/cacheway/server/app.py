@@ -1,37 +1,34 @@
-from fastapi import FastAPI,Request
+from fastapi import FastAPI, Request
 from cacheway.config.forwarder import forward_request
 import os
 
 app = FastAPI()
-url = None
-method = None
 
 cache = {}
 
-@app.api_route("/{path:path}",methods=["GET"])
-async def proxy(request: Request, path:str):
-    
-    url = str(request.url)
+@app.api_route("/{path:path}", methods=["GET"])
+async def proxy(request: Request, path: str):
     method = request.method
-    headers = request.headers
-    host = headers.get("host")
-    
-    cache_key = f"{method} {url}"
-    
+    origin = os.getenv("ORIGIN")
+
+    target_url = f"https://{origin}/{path}"
+    if request.url.query:
+        target_url += f"?{request.url.query}"
+
+    cache_key = f"{method} {target_url}"
+
     if cache_key in cache:
         return cache[cache_key]
-    else:
-        if host == os.getenv("ORIGIN"):
-            response = forward_request(url)
-            cache[cache_key] = {
-                "status": response.status_code,
-                "details":{
-                    "url":str(url),
-                    "method":method,
-                    "headers":headers
-                },
-                "response":response.text.replace("\n",""),
-            }
-            return cache[cache_key]
-        else:
-            return {"status":421}
+
+    response = forward_request(target_url)
+    cached = {
+        "status": response.status_code,
+        "details": {
+            "url": str(request.url),
+            "method": method,
+            "headers": request.headers,
+        },
+        "response": response.text.replace("\n", ""),
+    }
+    cache[cache_key] = cached
+    return cached
