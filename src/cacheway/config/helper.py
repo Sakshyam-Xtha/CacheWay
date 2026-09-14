@@ -7,11 +7,12 @@ def get_root_path():
     base_path = path.resolve().parent.parent.parent.parent
     return base_path
 
-def env_setter(port):
+def env_setter(port,origin):
     env = get_root_path() / ".env"
     server_path = get_server_path()
     set_key(env,"PORT",str(port))
     set_key(env,"SERVER_PATH",str(server_path))
+    set_key(env,"ORIGIN",origin)
     load_dotenv(env, override=True)
 
 def get_server_path():

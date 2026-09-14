@@ -14,9 +14,10 @@ def main():
     parser = argparse.ArgumentParser()
     
     parser.add_argument("--port", type=int, required=True)
+    parser.add_argument("--origin", required=True)
     
     args = parser.parse_args()
-    env_setter(args.port)
+    env_setter(args.port,args.origin)
     
     port = os.getenv("PORT")
     path = os.getenv("SERVER_PATH")
