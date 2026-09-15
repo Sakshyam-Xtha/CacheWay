@@ -1,4 +1,4 @@
-from cacheway.config.helper import env_setter, get_root_path, get_server_path
+from cacheway.utils.helper import env_setter, get_root_path, get_server_path
 
 
 def test_get_root_path_points_to_project_root():

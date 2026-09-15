@@ -2,7 +2,7 @@ import typer
 import argparse
 import os
 from dotenv import load_dotenv
-from cacheway.config.helper import env_setter
+from cacheway.utils.helper import env_setter
 from cacheway.config.loader import start_server
 
 load_dotenv(override=True)
